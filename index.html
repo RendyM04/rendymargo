@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* Reset dan font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar */
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 4px 0;
+            transition: 0.3s;
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                right: 0;
+                top: 100%;
+                background-color: #2c3e50;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in;
+            }
+            .nav-links.active {
+                transform: translateX(0);
+            }
+            .nav-links li {
+                margin: 1rem 0;
+            }
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        #profile {
+            background-color: #000875;
+        }
+        #gallery {
+            background-color: #0098fd;
+        }
+        #tentang {
+            background-color: #5b66ff;
+        }
+        #tugas {
+            background: linear-gradient(135deg, #1E3C72, #2A5298);
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            backdrop-filter: blur(4px);
+            padding-top: 40px;
+            padding-bottom: 80px;
+        }
+        #tugas h2 { margin-top: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
+        #tugas p {  margin-top: 35px; text-align:center; max-width:600px; margin-bottom:50px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .tugas-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:20px; width:80%; max-width:1000px;
+        }
+        .card {
+            background: rgba(255,255,255,0.15); border-radius:12px; padding:20px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2);
+            transition:0.3s;
+        }
+        .card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.25); }
+        .card h3 { margin-bottom:10px; color:#fff; }
+        .card p { font-size:14px; color:#eee; margin-bottom:15px; }
+        .btn { text-decoration:none; background-color:#007bff; color:white; padding:8px 14px; border-radius:6px; font-weight:bold; }
+        .btn:hover { background-color:#0056b3; }
+        .back-btn { margin:40px 0; }
+
+        #kontak {
+            background-color: #bdc3c7;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .gallery-item {
+            background-color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* Latihan Upload dan Display */
+        .upload-form {
+            margin-top: 2rem;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 1rem;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 2rem;
+        }
+        .file-list li {
+            background-color: #fff;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .file-list a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .file-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Form */
+        form {
+            max-width: 400px;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+        }
+        input, textarea {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 0.5rem;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Rendy.Margo</div>
+            <ul class="nav-links">
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#tentang">tentang</a></li>
+                <li><a href="#tugas">tugas</a></li>
+                <li><a href="#kontak">kontak</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </header>
+
+    <section id="profile">
+        <div>
+            <h2>Profile</h2>
+            <img src="img/Rendy Margo.jpg">
+            <h1>Halo, Saya <span>Rendy Margo</span></h1>
+      <h3>Mahasiswa Teknik Informatika</h3>
+
+      <p>
+        Saya adalah mahasiswa Universitas Pamulang yang memiliki minat pada olahraga Bulu Tankis dan Editing Foto/Video.
+        Saat ini saya sedang mempelajari pengembangan website sebagai langkah untuk menjadi developer yang profesional dan kompeten.
+      </p>
+    </section>
+
+    <section id="gallery">
+        <div>
+            <h2>Gallery</h2>
+            <p>Berikut isi gambar pribadi saya.</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="img/F1.jpg.jpg" alt="Karya 1">
+                    <p>Gambar 1</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/foto_dari_samping.jpg" alt="Karya 2">
+                    <p>Gambar 2</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/foto_pemandangan.jpg" alt="Karya 3">
+                    <p>Gambar 3</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/foto_pemadangan2.jpg" alt="Karya 4">
+                    <p>Gambar 4</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section id="tentang">
+    <div class="about-container">
+      <div>
+        <h2 class="about-title">Tentang Saya</h2>
+
+        <p class="about-text">
+          Saya adalah mahasiswa <b>Teknik Informatika Universitas Pamulang</b> yang memiliki ketertarikan pada pengembangan web dan teknologi digital.
+          Selain mempelajari dasar-dasar pemrograman, saya juga aktif mengembangkan proyek kecil sebagai latihan untuk meningkatkan kemampuan teknis saya. Saya memiliki minat pada kegiatan olahraga seperti Bulu Tankis dan editing foto/video.
+          Saat ini saya fokus memperdalam HTML, CSS, dan JavaScript sebagai langkah awal untuk menjadi developer yang kompeten dan profesional.
+        </p>
+
+        <div class="info-box">
+          <div class="info-item"><span class="label">Nama : </span> Rendy Margo</div>
+          <div class="info-item"><span class="label">Pendidikan : </span> Teknik Informatika | Universitas Pamulang</div>
+          <div class="info-item"><span class="label">Minat : </span> bulu tankis, editing, dan web development</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TUGAS (ASLI) ================= -->
+  <section id="tugas">
+    <h2>Daftar Tugas Mata Kuliah Pemrograman Web 1 Saya</h2>
+    <p>Berikut adalah beberapa tugas kuliah yang telah saya kerjakan selama masa perkuliahan. Klik tombol di bawah untuk melihat detail setiap tugas.</p>
+
+    <div class="tugas-container">
+      <div class="card">
+        <h3>Latihan 2</h3>
+        <p>Basic Tag HTML</p>
+        <a href="latihan2.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 3</h3>
+        <p>Format Teks dan Karakter Khusus</p>
+        <a href="latihan3.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 4</h3>
+        <p>Menampilkan Gambar, Suara, dan Video</p>
+        <a href="latihan4.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 5</h3>
+        <p>Hyperlink</p>
+        <a href="latihan5.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 6</h3>
+        <p>Bullet Numbering dan List</p>
+        <a href="latihan6.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 7</h3>
+        <p>Tabel</p>
+        <a href="latihan7.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 8</h3>
+        <p>Form</p>
+        <a href="latihan8.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 9</h3>
+        <p>Frame</p>
+        <a href="latihan9.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 10</h3>
+        <p>I Frame</p>
+        <a href="latihan10.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 11</h3>
+        <p>CASCADING STYLE SHEET (CSS)</p>
+        <a href="latihan11.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 12</h3>
+        <p>CLASS DALAM CASCADING STYLE SHEET</p>
+        <a href="latihan12.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 13</h3>
+        <p>DIVISION (DIV)</p>
+        <a href="latihan13.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 14</h3>
+        <p>PENGENALAN JAVA SCRIPT</p>
+        <a href="latihan14.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 15</h3>
+        <p>DIALOG BOX</p>
+        <a href="latihan15.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 16</h3>
+        <p>TIPE DATA DAN OPERATOR</p>
+        <a href="latihan16.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 17</h3>
+        <p>STRUKTUR  KENDALI  DAN  LOOPING</p>
+        <a href="latihan17.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 18</h3>
+        <p>FUNCTION DAN ARRAY</p>
+        <a href="latihan18.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 19</h3>
+        <p>desain</p>
+        <a href="desain.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 20</h3>
+        <p>tabel</p>
+        <a href="tabel.html" class="btn">Lihat Latihan</a>
+      </div>
+      <div class="card">
+        <h3>Latihan 21</h3>
+        <p>Tugasnya semua</p>
+        <a href="tugas.html" class="btn">Lihat Latihan</a>
+      </div>
+    </div>
+
+    <div class="back-btn">
+      <a href="#beranda" class="btn">Kembali ke Halaman Utama</a>
+    </div>
+  </section>
+
+  <!-- ================= KONTAK (ASLI) ================= -->
+  <section id="kontak">
+  <div class="contact-card">
+    <h2>Hubungi Saya</h2>
+    <p>Isi form di bawah untuk mengirim pesan atau hubungi saya melalui media sosial.</p>
+
+    <form id="contactForm">
+      <div style="margin-bottom:12px;">
+        <input type="text" id="nama" class="form-control" placeholder="Nama Anda" required>
+      </div>
+      <div style="margin-bottom:12px;">
+        <input type="email" id="email" class="form-control" placeholder="Email Anda" required>
+      </div>
+      <div style="margin-bottom:12px;">
+        <textarea id="pesan" class="form-control" rows="4" placeholder="Pesan Anda" required></textarea>
+      </div>
+      <button type="submit" class="btn-send">Kirim Pesan</button>
+    </form>
+
+    <script>
+      document.getElementById("contactForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        const url = "https://script.google.com/macros/s/AKfycbwsLmRLZwmtmrE4OMlusafoLdDyZr9xVs7aXFqU1n9ASw4gG4E7Fz1NxaTR8v_8dpiQ/exec";
+
+        fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nama: document.getElementById("nama").value,
+            email: document.getElementById("email").value,
+            pesan: document.getElementById("pesan").value
+          })
+        });
+
+        alert("Pesan berhasil dikirim!");
+        document.getElementById("contactForm").reset();
+      });
+    </script>
+
+    <div class="social-links mt-4" style="margin-top:16px;">
+      <a href="https://instagram.com/rxndyyy.m"><i class="bi bi-instagram"></i></a>
+      <a href="https://facebook.com/Rendy Margo"><i class="bi bi-facebook"></i></a>
+      <a href="https://wa.me/081295720806"><i class="bi bi-whatsapp"></i></a>
+      <a href="mailto:rendymargo1214@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+    </div>
+    <div class="mt-4" style="margin-top:18px;">
+      <a href="#beranda" class="btn-send" style="text-decoration:none; display:inline-block;">Kembali ke Halaman Utama </a>
+    </div>
+  </div>
+</section>
+
+    <!-- Bootstrap Icons (redundant link kept intentionally as in original kontak file) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  </section>
+
+  <!-- optional: small footer / credit (hidden) -->
+  <!-- Screenshot file (uploaded) path: /mnt/data/Screenshot 2025-11-21 174123.png -->
+
+</body>
+</html>
