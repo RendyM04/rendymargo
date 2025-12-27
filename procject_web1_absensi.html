@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistem Absensi Mahasiswa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+        .container {
+            width: 700px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Sistem Absensi Mahasiswa</h2>
+
+    <input type="text" id="nim" placeholder="NIM">
+    <input type="text" id="nama" placeholder="Nama Mahasiswa">
+
+    <select id="matkul">
+        <option value="">-- Pilih Mata Kuliah --</option>
+        <option value="Pemrograman Web">Pemrograman Web</option>
+        <option value="Basis Data">Basis Data</option>
+        <option value="Sistem Informasi">Sistem Informasi</option>
+    </select>
+
+    <select id="status">
+        <option value="">-- Status Kehadiran --</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Izin">Izin</option>
+        <option value="Sakit">Sakit</option>
+        <option value="Alfa">Alfa</option>
+    </select>
+
+    <button onclick="simpanAbsensi()">Absen Sekarang</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>NIM</th>
+                <th>Nama</th>
+                <th>Mata Kuliah</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="dataAbsensi"></tbody>
+    </table>
+</div>
+
+<script>
+    function simpanAbsensi() {
+        let nim = document.getElementById("nim").value;
+        let nama = document.getElementById("nama").value;
+        let matkul = document.getElementById("matkul").value;
+        let status = document.getElementById("status").value;
+
+        if (nim === "" || nama === "" || matkul === "" || status === "") {
+            alert("Lengkapi semua data!");
+            return;
+        }
+
+        let tanggal = new Date().toLocaleDateString();
+
+        let absensi = {
+            nim: nim,
+            nama: nama,
+            matkul: matkul,
+            tanggal: tanggal,
+            status: status
+        };
+
+        let data = JSON.parse(localStorage.getItem("absensi")) || [];
+        data.push(absensi);
+        localStorage.setItem("absensi", JSON.stringify(data));
+
+        tampilkanAbsensi();
+        alert("Absensi berhasil disimpan!");
+    }
+
+    function tampilkanAbsensi() {
+        let data = JSON.parse(localStorage.getItem("absensi")) || [];
+        let tabel = document.getElementById("dataAbsensi");
+        tabel.innerHTML = "";
+
+        data.forEach(item => {
+            tabel.innerHTML += `
+                <tr>
+                    <td>${item.nim}</td>
+                    <td>${item.nama}</td>
+                    <td>${item.matkul}</td>
+                    <td>${item.tanggal}</td>
+                    <td>${item.status}</td>
+                </tr>
+            `;
+        });
+    }
+
+    tampilkanAbsensi();
+</script>
+
+</body>
+</html>
